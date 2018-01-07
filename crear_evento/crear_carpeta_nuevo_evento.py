@@ -9,22 +9,21 @@ yearInput = raw_input("Anio: ")
 baseFolderInput = raw_input("Carpeta: ")
 comboInput = raw_input("Combo: ")
 
-
 folders = {
-    yearInput+"/"+baseFolderInput+"/Seleccion/DVD",
-    yearInput+"/"+baseFolderInput+"/Seleccion/TapaDVD",
-    yearInput+"/"+baseFolderInput+"/Otros",
+    yearInput+"/Eventos/"+baseFolderInput+"/Seleccion/DVD",
+    yearInput+"/Eventos/"+baseFolderInput+"/Seleccion/TapaDVD",
+    yearInput+"/Eventos/"+baseFolderInput+"/Otros",
 }
 
 combos = {
     '1': {
-        yearInput+"/"+baseFolderInput+"/20x30",
-        yearInput+"/"+baseFolderInput+"/5 copias",
+        yearInput+"/Eventos/"+baseFolderInput+"/20x30",
+        yearInput+"/Eventos/"+baseFolderInput+"/5 copias",
     },
     '2': {
-        yearInput+"/"+baseFolderInput+"/20x30",
-        yearInput+"/"+baseFolderInput+"/30x45",
-        yearInput+"/"+baseFolderInput+"/7 copias",
+        yearInput+"/Eventos/"+baseFolderInput+"/20x30",
+        yearInput+"/Eventos/"+baseFolderInput+"/30x45",
+        yearInput+"/Eventos/"+baseFolderInput+"/7 copias",
     }
 }
 
@@ -43,15 +42,16 @@ for folder in folders:
     else:
         print "La carpeta " + folder + " ya existe"
 print ""
-print "-------------------------------"
-print "Creando carpetas para combos:"
-print "-------------------------------"
-for combo in combos[comboInput]:
-    if not os.path.exists(combo):
-        print "Creando: " + combo + "..."
-        os.makedirs(combo)
-    else:
-        print "La carpeta " + combo + " ya existe"
+if comboInput != '':
+    print "-------------------------------"
+    print "Creando carpetas para combos:"
+    print "-------------------------------"
+    for combo in combos[comboInput]:
+        if not os.path.exists(combo):
+            print "Creando: " + combo + "..."
+            os.makedirs(combo)
+        else:
+            print "La carpeta " + combo + " ya existe"
 print ""
 print "-------------------------------"
 print "FIN"
