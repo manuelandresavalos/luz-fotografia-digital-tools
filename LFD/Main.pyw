@@ -21,40 +21,65 @@ class mainFrame(wx.Frame):
         self.CreateStatusBar()
         self.SetStatusText("...")
 
-        # create panel 1
-        self.panel = wx.Panel(self)
-        
+        # ---------------------------------------------------------------------------------------------------------------------------
+        # create panel 1 ------------------------------------------------------------------------------------------------------------
+        # ---------------------------------------------------------------------------------------------------------------------------
+        self.panelClientes = wx.Panel(self, size=(1024,768))
         # armo el panel 1
         # agrego una caja y y alineo los elementos verticalmente
-        box = wx.BoxSizer(wx.VERTICAL)
+        clientBox = wx.BoxSizer(wx.VERTICAL)
 
         # Creo un objeto texto en modo estatico y se lo agrego al panel 1
-        m_text = wx.StaticText(self.panel, -1, "Hello World!")
+        clientText = wx.StaticText(self.panelClientes, -1, "En panel de Clientes")
         # seteo la fuente
-        m_text.SetFont(wx.Font(14, wx.SWISS, wx.NORMAL, wx.BOLD))
+        clientText.SetFont(wx.Font(14, wx.SWISS, wx.NORMAL, wx.BOLD))
         # seteo el tamanio
-        m_text.SetSize(m_text.GetBestSize())
+        clientText.SetSize(clientText.GetBestSize())
 
         # Creo un boton
-        m_close = wx.Button(self.panel, wx.ID_CLOSE, "Close")
+        clientClose = wx.Button(self.panelClientes, wx.ID_CLOSE, "Close")
         # Hago que el boton escuche el evento EVT_BUTTON y ejecute OnClose
-        m_close.Bind(wx.EVT_BUTTON, self.OnClose)
+        clientClose.Bind(wx.EVT_BUTTON, self.OnClose)
 
         # agrego el texto a la caja.
-        box.Add(m_text, 0, wx.ALL, 10)
+        clientBox.Add(clientText, 0, wx.ALL, 10)
         # agrego el boton a la caja.
-        box.Add(m_close, 0, wx.ALL, 10)
+        clientBox.Add(clientClose, 0, wx.ALL, 10)
 
-        self.panel.SetSizer(box)
-        self.panel.Layout()
+        self.panelClientes.SetSizer(clientBox)
+        self.panelClientes.Layout()
+
+        # ---------------------------------------------------------------------------------------------------------------------------
+        # create panel 2 ------------------------------------------------------------------------------------------------------------
+        # ---------------------------------------------------------------------------------------------------------------------------
+        self.panelCombos = wx.Panel(self, size=(1024,768))
         
-#        sizer = wx.BoxSizer(wx.HORIZONTAL)
-#        for button_name in ["first", "second", "third"]:
-#            btn = wx.Button(self, label=button_name)
-#            btn.Bind(wx.EVT_BUTTON, lambda evt, temp=button_name: self.OnButton(evt, temp) )
-#            sizer.Add(btn, 0, wx.ALL, 20)
+        # armo el panel 2
+        # agrego una caja y y alineo los elementos verticalmente
+        cobmosBox = wx.BoxSizer(wx.VERTICAL)
 
-#        self.SetSizerAndFit(sizer)
+        # Creo un objeto texto en modo estatico y se lo agrego al panel 1
+        combosText = wx.StaticText(self.panelCombos, -1, "En panel de Combos")
+        # seteo la fuente
+        combosText.SetFont(wx.Font(14, wx.SWISS, wx.NORMAL, wx.BOLD))
+        # seteo el tamanio
+        combosText.SetSize(combosText.GetBestSize())
+
+        # Creo un boton
+        combosClose = wx.Button(self.panelCombos, wx.ID_CLOSE, "Close")
+        # Hago que el boton escuche el evento EVT_BUTTON y ejecute OnClose
+        combosClose.Bind(wx.EVT_BUTTON, self.OnClose)
+
+        # agrego el texto a la caja.
+        cobmosBox.Add(combosText, 0, wx.ALL, 10)
+        # agrego el boton a la caja.
+        cobmosBox.Add(combosClose, 0, wx.ALL, 10)
+
+        self.panelCombos.SetSizer(cobmosBox)
+        self.panelCombos.Layout()
+
+        self.panelClientes.Hide()
+        self.panelCombos.Hide()
 
     def OnButton(self, Event, button_label):
         print "In OnButton:", button_label
@@ -105,8 +130,6 @@ class mainFrame(wx.Frame):
         # AYUDA
         helpMenu = wx.Menu()
         helpMenu_aboutItem = helpMenu.Append(wx.ID_ABOUT)
-        helpMenu_remove = helpMenu.Append(-1, "&RemovePanel", "RemovePanel from Main Frame")
-
 
         #Agrego los menues a la barra de menu.
         menuBar = wx.MenuBar()
@@ -123,9 +146,18 @@ class mainFrame(wx.Frame):
         self.SetMenuBar(menuBar)
 
         # Finally, associate a handler function with the EVT_MENU event for
+        self.Bind(wx.EVT_MENU, self.OnClientes,  clientes_alta)
+        self.Bind(wx.EVT_MENU, self.OnCombos,  combos_alta)
         self.Bind(wx.EVT_MENU, self.OnExit,  fileMenu_exitItem)
         self.Bind(wx.EVT_MENU, self.OnAbout, helpMenu_aboutItem)
-        self.Bind(wx.EVT_MENU, self.clearPanel, helpMenu_remove)
+
+    def OnClientes(self, event):
+        self.panelClientes.Show()
+        self.panelCombos.Hide()
+
+    def OnCombos(self, event):
+        self.panelClientes.Hide()
+        self.panelCombos.Show()
 
     def OnExit(self, event):
         """Close the frame, terminating the application."""
@@ -151,9 +183,6 @@ class mainFrame(wx.Frame):
         dlg.Destroy()
         if result == wx.ID_OK:
             self.Destroy()
-
-    def clearPanel(panel):
-        panel.Destroy()
 
 if __name__ == '__main__':
     # When this module is run (not imported) then create the app, the
