@@ -10,8 +10,9 @@ baseFolderInput = raw_input("Carpeta: ")
 comboInput = raw_input("Combo: ")
 
 folders = {
-    yearInput+"/Eventos/"+baseFolderInput+"/Seleccion/DVD",
-    yearInput+"/Eventos/"+baseFolderInput+"/Seleccion/TapaDVD",
+    yearInput+"/Eventos/"+baseFolderInput+"/Seleccion",
+    yearInput+"/Eventos/"+baseFolderInput+"/TapaDVD",
+    yearInput+"/Eventos/"+baseFolderInput+"/Destacadas",
     yearInput+"/Eventos/"+baseFolderInput+"/Otros",
 }
 
