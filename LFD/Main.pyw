@@ -14,16 +14,6 @@ class mainFrame(wx.Frame):
         # ensure the parent's __init__ is called
         super(mainFrame, self).__init__(*args, **kw)
 
-        # create a panel in the frame
-        pnl = wx.Panel(self)
-
-        # and put some text with a larger bold font on it
-        st = wx.StaticText(pnl, label="Hello World!", pos=(25,25))
-        font = st.GetFont()
-        font.PointSize += 10
-        font = font.Bold()
-        st.SetFont(font)
-
         # create a menu bar
         self.makeMenuBar()
 
@@ -31,6 +21,43 @@ class mainFrame(wx.Frame):
         self.CreateStatusBar()
         self.SetStatusText("...")
 
+        # create panel 1
+        self.panel = wx.Panel(self)
+        
+        # armo el panel 1
+        # agrego una caja y y alineo los elementos verticalmente
+        box = wx.BoxSizer(wx.VERTICAL)
+
+        # Creo un objeto texto en modo estatico y se lo agrego al panel 1
+        m_text = wx.StaticText(self.panel, -1, "Hello World!")
+        # seteo la fuente
+        m_text.SetFont(wx.Font(14, wx.SWISS, wx.NORMAL, wx.BOLD))
+        # seteo el tamanio
+        m_text.SetSize(m_text.GetBestSize())
+
+        # Creo un boton
+        m_close = wx.Button(self.panel, wx.ID_CLOSE, "Close")
+        # Hago que el boton escuche el evento EVT_BUTTON y ejecute OnClose
+        m_close.Bind(wx.EVT_BUTTON, self.OnClose)
+
+        # agrego el texto a la caja.
+        box.Add(m_text, 0, wx.ALL, 10)
+        # agrego el boton a la caja.
+        box.Add(m_close, 0, wx.ALL, 10)
+
+        self.panel.SetSizer(box)
+        self.panel.Layout()
+        
+#        sizer = wx.BoxSizer(wx.HORIZONTAL)
+#        for button_name in ["first", "second", "third"]:
+#            btn = wx.Button(self, label=button_name)
+#            btn.Bind(wx.EVT_BUTTON, lambda evt, temp=button_name: self.OnButton(evt, temp) )
+#            sizer.Add(btn, 0, wx.ALL, 20)
+
+#        self.SetSizerAndFit(sizer)
+
+    def OnButton(self, Event, button_label):
+        print "In OnButton:", button_label
 
     def makeMenuBar(self):
         # Creo los menues y sus opciones hijas.
@@ -78,6 +105,7 @@ class mainFrame(wx.Frame):
         # AYUDA
         helpMenu = wx.Menu()
         helpMenu_aboutItem = helpMenu.Append(wx.ID_ABOUT)
+        helpMenu_remove = helpMenu.Append(-1, "&RemovePanel", "RemovePanel from Main Frame")
 
 
         #Agrego los menues a la barra de menu.
@@ -97,7 +125,7 @@ class mainFrame(wx.Frame):
         # Finally, associate a handler function with the EVT_MENU event for
         self.Bind(wx.EVT_MENU, self.OnExit,  fileMenu_exitItem)
         self.Bind(wx.EVT_MENU, self.OnAbout, helpMenu_aboutItem)
-
+        self.Bind(wx.EVT_MENU, self.clearPanel, helpMenu_remove)
 
     def OnExit(self, event):
         """Close the frame, terminating the application."""
@@ -115,11 +143,22 @@ class mainFrame(wx.Frame):
                       "About Hello World 2",
                       wx.OK|wx.ICON_INFORMATION)
 
+    def OnClose(self, event):
+        dlg = wx.MessageDialog(self, 
+            "Do you really want to close this application?",
+            "Confirm Exit", wx.OK|wx.CANCEL|wx.ICON_QUESTION)
+        result = dlg.ShowModal()
+        dlg.Destroy()
+        if result == wx.ID_OK:
+            self.Destroy()
+
+    def clearPanel(panel):
+        panel.Destroy()
 
 if __name__ == '__main__':
     # When this module is run (not imported) then create the app, the
     # frame, show it, and start the event loop.
-    app = wx.App()
+    app = wx.App(redirect=True)
     mainFrame = mainFrame(None, title='Luz Fotografia Digital - UnityTool', size=(1024,768))
     mainFrame.Centre()
     mainFrame.Show()
