@@ -127,6 +127,10 @@ class mainFrame(wx.Frame):
         emailMenu = wx.Menu()
         emailMenu_email = emailMenu.Append(-1, "&Email", "Revisar Email")
 
+        # PRESUPUESTADOR
+        presupuestadorMenu = wx.Menu()
+        presupuestadorMenu_crear = presupuestadorMenu.Append(-1, "&Crear", "Crear Presupuesto")
+
         # AYUDA
         helpMenu = wx.Menu()
         helpMenu_aboutItem = helpMenu.Append(wx.ID_ABOUT)
@@ -140,6 +144,7 @@ class mainFrame(wx.Frame):
         menuBar.Append(precios_y_costos, "&Precios y costos")
         menuBar.Append(socialMenu, "&SocialMedia")
         menuBar.Append(emailMenu, "&Email")
+        menuBar.Append(presupuestadorMenu, "&Presupuestador")
         menuBar.Append(helpMenu, "&Help")
 
         # Give the menu bar to the frame
