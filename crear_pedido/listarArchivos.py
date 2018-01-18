@@ -109,5 +109,6 @@ execfile("zip.py")
 print "\nEliminando Pedido.txt ...."
 os.remove('Pedido.txt')
 print "Moviendo Pedido.zip a /Solicitud de Revelado en Dropbox ...."
+os.remove('C:\Users\manuel.avalos\Dropbox\Solicitud de Revelado\Pedido.zip')
 os.rename("Pedido.zip", "C:\Users\manuel.avalos\Dropbox\Solicitud de Revelado\Pedido.zip")
 print "\nDone!"
