@@ -102,6 +102,9 @@ if cantidadTotal >= 100:
 	costoTotal = costoTotal - (10 * costoTotal / 100)
 	print "Descuento por cantidad -10% = $" + str(costoTotal) + "\n"
 
+print "El link de descarga es el siguiente:"
+print "https://www.dropbox.com/sh/odwn3hwydnn065t/AAC5nOB8ZiGlQ6_Ap-_G1Lmza?dl=0" + "\n\n\n"
+
 file.write(stringFinal)
 file.close()
 
