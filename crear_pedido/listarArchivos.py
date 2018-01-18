@@ -96,11 +96,12 @@ stringFinal += "\n50x60 = " + str(totalesPorMedidas['50x60']) + " por $" + str(p
 stringFinal += "\n"
 stringFinal += "\nCosto Total: $"+ str(costoTotal)
 
-if cantidadTotal >= 100:
-	costoTotal = costoTotal - (10 * costoTotal / 100)
-	stringFinal += "\nDescuento por cantidad -10% = $" + str(costoTotal)
 
 print stringFinal
+if cantidadTotal >= 100:
+	costoTotal = costoTotal - (10 * costoTotal / 100)
+	print "Descuento por cantidad -10% = $" + str(costoTotal) + "\n"
+
 file.write(stringFinal)
 file.close()
 
