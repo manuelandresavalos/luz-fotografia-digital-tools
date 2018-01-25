@@ -14,5 +14,4 @@ if __name__ == '__main__':
     zipf = zipfile.ZipFile('Pedido.zip', 'w', zipfile.ZIP_DEFLATED)
     zipMydir('CON_BORDE', zipf)
     zipMydir('SIN_BORDE', zipf)
-    zipMyfile('Pedido.txt', zipf)
     zipf.close()
