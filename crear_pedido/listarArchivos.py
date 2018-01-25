@@ -1,34 +1,20 @@
 import os
 import datetime
+import json
 
-file = open("Pedido.txt","w")
+# Le coloco el nombre correcto al txt de Pedido historico
+twomorow = datetime.date.today() + datetime.timedelta(days=1)
+fileHistoricoTxt = "C:\Users\manuel.avalos\Dropbox\LuzFotografiaDigital\\2018\Historico_de_pedidos\\"+ "Pedido Unicolor " + str(twomorow.strftime('%d-%m-%Y')) + ".txt"
+fileHistorico = open(fileHistoricoTxt,"w")
+
+# Levanto la configuracion
+config_json = json.loads(open('config.json').read())
+
 total = 0
 stringFinal = ''
-twomorow = datetime.date.today() + datetime.timedelta(days=1)
 
-precios = {
-	'9x13': 9.30,
-	'10x15': 4.75,
-	'13x18': 6.40,
-	'15x21': 9.95,
-	'20x30': 35,
-	'30x40': 65,
-	'30x45': 70,
-	'40x50': 100,
-	'50x60': 150,
-}
-
-totalesPorMedidas = {
-	'9x13': 0,
-	'10x15': 0,
-	'13x18': 0,
-	'15x21': 0,
-	'20x30': 0,
-	'30x40': 0,
-	'30x45': 0,
-	'40x50': 0,
-	'50x60': 0,
-}
+precios = config_json["precios"];
+totalesPorMedidas = config_json["medidas"]
 
 stringFinal += "Estimados!"
 stringFinal += "\nLes enviamos el nuevo pedido para el " + str(twomorow.strftime('%d/%m/%Y'))
@@ -95,9 +81,9 @@ stringFinal += "\n40x50 = " + str(totalesPorMedidas['40x50']) + " por $" + str(p
 stringFinal += "\n50x60 = " + str(totalesPorMedidas['50x60']) + " por $" + str(precios['50x60']) + " = $" + str(totalesPorMedidas['50x60'] * precios['50x60'])
 stringFinal += "\n"
 stringFinal += "\nCosto Total: $"+ str(costoTotal)
-
-
 print stringFinal
+
+
 if cantidadTotal >= 100:
 	costoTotal = costoTotal - (10 * costoTotal / 100)
 	print "Descuento por cantidad -10% = $" + str(costoTotal) + "\n"
@@ -105,14 +91,31 @@ if cantidadTotal >= 100:
 print "El link de descarga es el siguiente:"
 print "https://www.dropbox.com/sh/odwn3hwydnn065t/AAC5nOB8ZiGlQ6_Ap-_G1Lmza?dl=0" + "\n\n\n"
 
-file.write(stringFinal)
-file.close()
+stringFinal += "\n\n-----------------------------------------------"
+stringFinal += "\nLista de precios al " + str(twomorow.strftime('%d-%m-%Y')) + ":"
+stringFinal += "\n-----------------------------------------------"
+stringFinal += "\n9x13 = " + str(precios['9x13'])
+stringFinal += "\n10x15 = " + str(precios['10x15'])
+stringFinal += "\n13x18 = " + str(precios['13x18'])
+stringFinal += "\n15x21 = " + str(precios['15x21'])
+stringFinal += "\n20x30 = " + str(precios['20x30'])
+stringFinal += "\n30x40 = " + str(precios['30x40'])
+stringFinal += "\n30x45 = " + str(precios['30x45'])
+stringFinal += "\n40x50 = " + str(precios['40x50'])
+stringFinal += "\n50x60 = " + str(precios['50x60'])
 
-print "\nZipeando pedido ...."
-execfile("zip.py")
-print "\nEliminando Pedido.txt ...."
-os.remove('Pedido.txt')
-print "Moviendo Pedido.zip a /Solicitud de Revelado en Dropbox ...."
-os.remove('C:\Users\manuel.avalos\Dropbox\Solicitud de Revelado\Pedido.zip')
-os.rename("Pedido.zip", "C:\Users\manuel.avalos\Dropbox\Solicitud de Revelado\Pedido.zip")
+fileHistorico.write(stringFinal)
+fileHistorico.close()
+
+zipear = raw_input("Zipear y mandar a Solicitud de Revelado? y/n: ")
+
+print "----------------------------------------------------------------------------------------------"
+if zipear == 'y':
+	print "\nZipeando pedido a ./Pedido.zip...."
+	execfile("zip.py")
+
+	print "\nMoviendo Pedido.zip a /Solicitud de Revelado en Dropbox ...."
+	os.rename("Pedido.zip", "C:\Users\manuel.avalos\Dropbox\Solicitud de Revelado\Pedido.zip")
+
 print "\nDone!"
+print "----------------------------------------------------------------------------------------------"
