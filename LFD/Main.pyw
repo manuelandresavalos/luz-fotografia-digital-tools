@@ -1,8 +1,5 @@
 #!/bin/python
-"""
-Hello World, but with more meat.
-"""
-
+# https://docs.google.com/spreadsheets/d/1qBtWt6SbBhyTzrc_RnRw9_YQLfxhXpaYvOX36L0blHw/edit#gid=0
 import wx
 
 class mainFrame(wx.Frame):
